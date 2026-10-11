@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 480" width="800" height="480" fill="none">
+  <defs>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#00d6a0" stop-opacity="0.35"/>
+      <stop offset="50%" stop-color="#00d6a0" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#090c10" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#182230"/>
+      <stop offset="100%" stop-color="#0d131a"/>
+    </linearGradient>
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00d6a0"/>
+      <stop offset="100%" stop-color="#009e75"/>
+    </linearGradient>
+    <linearGradient id="amberGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff9f45"/>
+      <stop offset="100%" stop-color="#d4701e"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="16" stdDeviation="24" flood-color="#000" flood-opacity="0.6"/>
+    </filter>
+  </defs>
+
+  <!-- Ambient Glow -->
+  <circle cx="400" cy="240" r="320" fill="url(#glow)"/>
+
+  <!-- Background Tech Grid / Circuit -->
+  <g opacity="0.18" stroke="#00d6a0" stroke-width="1.2">
+    <line x1="80" y1="240" x2="720" y2="240"/>
+    <line x1="400" y1="60" x2="400" y2="420"/>
+    <circle cx="400" cy="240" r="140" fill="none" stroke-dasharray="6 6"/>
+    <circle cx="400" cy="240" r="220" fill="none" stroke-dasharray="4 8"/>
+    <circle cx="400" cy="100" r="4" fill="#00d6a0"/>
+    <circle cx="400" cy="380" r="4" fill="#00d6a0"/>
+    <circle cx="180" cy="240" r="4" fill="#00d6a0"/>
+    <circle cx="620" cy="240" r="4" fill="#00d6a0"/>
+  </g>
+
+  <!-- Central High-Tech Platform Card -->
+  <g filter="url(#shadow)" transform="translate(180, 70)">
+    <!-- Base Slab -->
+    <rect x="0" y="0" width="440" height="280" rx="24" fill="url(#cardGrad)" stroke="rgba(255,255,255,0.12)" stroke-width="1.5"/>
+    
+    <!-- Top Bar with status -->
+    <rect x="0" y="0" width="440" height="48" rx="24" fill="rgba(255,255,255,0.03)"/>
+    <circle cx="28" cy="24" r="5" fill="#ff5f56"/>
+    <circle cx="44" cy="24" r="5" fill="#ffbd2e"/>
+    <circle cx="60" cy="24" r="5" fill="#27c93f"/>
+    <text x="220" y="29" fill="#8e9aaa" font-family="'Space Grotesk', monospace" font-size="12" text-anchor="middle" letter-spacing="1">kz-core-microservices :: v3.0</text>
+    
+    <!-- Active Status Beacon -->
+    <circle cx="396" cy="24" r="4" fill="#00d6a0"/>
+    <circle cx="396" cy="24" r="8" fill="none" stroke="#00d6a0" stroke-width="1" opacity="0.5"/>
+    <text x="382" y="27" fill="#00d6a0" font-family="'Inter', sans-serif" font-size="10" text-anchor="end" font-weight="600">LIVE</text>
+
+    <!-- Code & Pipeline Window Inside -->
+    <g transform="translate(24, 68)">
+      <!-- Left: Microservice Architecture Node Graph -->
+      <rect x="0" y="0" width="180" height="176" rx="14" fill="#0a0f15" stroke="rgba(0,214,160,0.2)" stroke-width="1"/>
+      <text x="14" y="24" fill="#edeff3" font-family="'Space Grotesk', sans-serif" font-size="11" font-weight="600">DISTRIBUTED CLUSTER</text>
+      
+      <!-- Nodes & Connections -->
+      <line x1="35" y1="75" x2="90" y2="50" stroke="#00d6a0" stroke-width="1.5" stroke-dasharray="3 3"/>
+      <line x1="90" y1="50" x2="145" y2="75" stroke="#00d6a0" stroke-width="1.5"/>
+      <line x1="90" y1="50" x2="90" y2="120" stroke="#00d6a0" stroke-width="1.5"/>
+      <line x1="35" y1="75" x2="90" y2="120" stroke="#ff9f45" stroke-width="1.5"/>
+      <line x1="145" y1="75" x2="90" y2="120" stroke="#ff9f45" stroke-width="1.5"/>
+
+      <!-- API Gateway Node -->
+      <rect x="70" y="38" width="40" height="24" rx="6" fill="#141f2b" stroke="#00d6a0" stroke-width="1.5"/>
+      <text x="90" y="53" fill="#00d6a0" font-family="'Space Grotesk', sans-serif" font-size="8" text-anchor="middle" font-weight="700">GATEWAY</text>
+
+      <!-- Service Nodes -->
+      <rect x="15" y="65" width="40" height="22" rx="6" fill="#141f2b" stroke="#8e9aaa" stroke-width="1"/>
+      <text x="35" y="79" fill="#edeff3" font-family="'Space Grotesk', sans-serif" font-size="7.5" text-anchor="middle">SPRING</text>
+
+      <rect x="125" y="65" width="40" height="22" rx="6" fill="#141f2b" stroke="#8e9aaa" stroke-width="1"/>
+      <text x="145" y="79" fill="#edeff3" font-family="'Space Grotesk', sans-serif" font-size="7.5" text-anchor="middle">NODE.JS</text>
+
+      <rect x="68" y="108" width="44" height="24" rx="6" fill="#141f2b" stroke="#ff9f45" stroke-width="1.5"/>
+      <text x="90" y="123" fill="#ff9f45" font-family="'Space Grotesk', sans-serif" font-size="8" text-anchor="middle" font-weight="700">POSTGRES</text>
+
+      <text x="90" y="156" fill="#59626f" font-family="'Inter', sans-serif" font-size="9" text-anchor="middle">High-Throughput Docker VPS</text>
+    </g>
+
+    <!-- Right: Metrics & Terminal Logs -->
+    <g transform="translate(220, 68)">
+      <rect x="0" y="0" width="194" height="176" rx="14" fill="#0a0f15" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+      
+      <!-- Metrics Bars -->
+      <g transform="translate(16, 18)">
+        <text x="0" y="0" fill="#8e9aaa" font-family="'Space Grotesk', sans-serif" font-size="10">API LATENCY (p99)</text>
+        <text x="162" y="0" fill="#00d6a0" font-family="'Space Grotesk', sans-serif" font-size="10" text-anchor="end" font-weight="700">14ms</text>
+        <rect x="0" y="6" width="162" height="4" rx="2" fill="rgba(255,255,255,0.06)"/>
+        <rect x="0" y="6" width="142" height="4" rx="2" fill="url(#accentGrad)"/>
+      </g>
+
+      <g transform="translate(16, 44)">
+        <text x="0" y="0" fill="#8e9aaa" font-family="'Space Grotesk', sans-serif" font-size="10">DB POOL INTEGRITY</text>
+        <text x="162" y="0" fill="#00d6a0" font-family="'Space Grotesk', sans-serif" font-size="10" text-anchor="end" font-weight="700">99.98%</text>
+        <rect x="0" y="6" width="162" height="4" rx="2" fill="rgba(255,255,255,0.06)"/>
+        <rect x="0" y="6" width="158" height="4" rx="2" fill="url(#accentGrad)"/>
+      </g>
+
+      <!-- Terminal output -->
+      <g transform="translate(16, 76)">
+        <rect x="0" y="0" width="162" height="84" rx="8" fill="#05070a" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+        <text x="10" y="18" fill="#00d6a0" font-family="monospace" font-size="8.5">✔ Docker container init [ok]</text>
+        <text x="10" y="34" fill="#8e9aaa" font-family="monospace" font-size="8.5">✔ JWT security handshake</text>
+        <text x="10" y="50" fill="#ff9f45" font-family="monospace" font-size="8.5">✔ Prisma migrations applied</text>
+        <text x="10" y="66" fill="#00d6a0" font-family="monospace" font-size="8.5">✔ PM2 cluster 4 workers up</text>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KZ Portfolio Admin Management Portal</title>
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/admin/admin.css">
+</head>
+<body>
+  <div class="grain"></div>
+
+  <!-- 1. LOGIN VIEW -->
+  <div id="loginView" class="login-view">
+    <div class="login-card">
+      <div class="login-head">
+        <div class="login-badge">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          Admin Console
+        </div>
+        <h1>Portfolio Manager</h1>
+        <p>Sign in to manage your portfolio content, projects, experience &amp; live settings.</p>
+      </div>
+
+      <form id="loginForm">
+        <div class="form-group" style="margin-bottom:16px;">
+          <label for="username">Username</label>
+          <input type="text" id="username" required autocomplete="username" placeholder="admin">
+        </div>
+        <div class="form-group" style="margin-bottom:24px;">
+          <label for="password">Password</label>
+          <input type="password" id="password" required autocomplete="current-password" placeholder="••••••••">
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">
+          Log In to Dashboard
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- 2. ADMIN APP VIEW -->
+  <div id="adminApp" class="admin-app" style="display:none;">
+    <!-- Header -->
+    <header class="admin-header">
+      <div class="admin-brand">
+        <div class="admin-logo">KZ<span>.</span> Manager</div>
+        <span class="admin-badge">Admin Portal</span>
+      </div>
+      <div class="admin-actions">
+        <a href="/" target="_blank" class="btn btn-ghost btn-sm" title="Open live portfolio in new tab">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          View Live Site
+        </a>
+        <button id="logoutBtn" class="btn btn-danger btn-sm">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          Log Out
+        </button>
+      </div>
+    </header>
+
+    <div class="admin-body">
+      <!-- Sidebar Tabs -->
+      <nav class="admin-sidebar">
+        <button class="nav-tab-btn active" data-tab="dashboard">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          Dashboard
+        </button>
+        <button class="nav-tab-btn" data-tab="profile">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Profile &amp; Hero
+        </button>
+        <button class="nav-tab-btn" data-tab="about">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          About &amp; Stats
+        </button>
+        <button class="nav-tab-btn" data-tab="experience">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+          Experience
+        </button>
+        <button class="nav-tab-btn" data-tab="projects">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+          Projects
+        </button>
+        <button class="nav-tab-btn" data-tab="skills">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+          Skills Categories
+        </button>
+        <button class="nav-tab-btn" data-tab="credentials">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+          Certificates &amp; Edu
+        </button>
+        <button class="nav-tab-btn" data-tab="series">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5V6a2 2 0 0 1 2-2h9l5 5v10.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 19.5z"/><polyline points="14 4 14 9 19 9"/></svg>
+          Articles &amp; Series
+        </button>
+        <button class="nav-tab-btn" data-tab="availability">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          Availability &amp; Status
+        </button>
+        <button class="nav-tab-btn" data-tab="settings">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          Security &amp; Backups
+        </button>
+      </nav>
+
+      <!-- Main Content Tabs -->
+      <main class="admin-content">
+        
+        <!-- TAB 1: DASHBOARD -->
+        <div id="tab-dashboard" class="tab-pane active">
+          <div class="pane-header">
+            <div>
+              <h2>Overview Dashboard</h2>
+              <p>Welcome back! Here is a summary of your live portfolio state.</p>
+            </div>
+            <div>
+              <a href="/" target="_blank" class="btn btn-primary btn-sm">Preview Live Site →</a>
+            </div>
+          </div>
+
+          <div class="stats-grid">
+            <div class="stat-box">
+              <div class="stat-box-val" id="dashProjectsCount">0</div>
+              <div class="stat-box-lbl">Featured Projects</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-box-val" id="dashExpCount">0</div>
+              <div class="stat-box-lbl">Experience Roles</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-box-val" id="dashSkillsCount">0</div>
+              <div class="stat-box-lbl">Skill Categories</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-box-val" id="dashCertsCount">0</div>
+              <div class="stat-box-lbl">Certifications</div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">
+              <span>Quick Availability Control</span>
+              <label class="switch-label">
+                <span id="quickAvailLabel">Open to Work: Active</span>
+                <div class="switch">
+                  <input type="checkbox" id="quickAvailToggle">
+                  <span class="slider"></span>
+                </div>
+              </label>
+            </div>
+            <p style="color:var(--text-muted);font-size:0.9rem;">
+              Toggling this switch updates the green radar beacon pill and contact availability card immediately on your portfolio.
+            </p>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Quick Actions</div>
+            <div style="display:flex;gap:12px;flex-wrap:wrap;">
+              <button class="btn btn-outline-accent" onclick="switchTab('profile')">Edit Profile &amp; Bio</button>
+              <button class="btn btn-outline-accent" onclick="switchTab('projects')">Manage Projects</button>
+              <button class="btn btn-outline-accent" onclick="switchTab('experience')">Update Experience</button>
+              <button class="btn btn-outline-accent" onclick="switchTab('skills')">Configure Skills</button>
+              <button class="btn btn-outline-accent" onclick="switchTab('profile');setTimeout(()=>{document.getElementById('assetCleanupCard')?.scrollIntoView({behavior:'smooth'})},150);">Storage &amp; Unused Assets</button>
+              <button class="btn btn-ghost" onclick="switchTab('settings')">Export JSON Backup</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 2: PROFILE & HERO -->
+        <div id="tab-profile" class="tab-pane">
+          <div class="pane-header">
+            <div>
+              <h2>Profile &amp; Hero Section</h2>
+              <p>Manage your name, titles, contacts, social links, and hero visual texts.</p>
+            </div>
+            <button class="btn btn-primary" onclick="saveProfileSection()">Save Profile Changes</button>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Identity &amp; Titles</div>
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" id="profName">
+              </div>
+              <div class="form-group">
+                <label>Short Mark (Initials)</label>
+                <input type="text" id="profShortName" placeholder="KZ">
+              </div>
+              <div class="form-group span-2">
+                <label>Professional Title</label>
+                <input type="text" id="profTitle">
+              </div>
+              <div class="form-group span-2">
+                <label>Hero Tagline (Eyebrow)</label>
+                <input type="text" id="profHeroTagline">
+              </div>
+              <div class="form-group span-2">
+                <label>Hero Subtitle Description</label>
+                <textarea id="profHeroSub" rows="3"></textarea>
+              </div>
+              <div class="form-group">
+                <label>Hero Background Watermark Word</label>
+                <input type="text" id="profWatermark" placeholder="SOFTWARE ENGINEER">
+                <span style="font-size:0.75rem;color:var(--text-muted);display:block;margin-top:4px;">
+                  Huge background watermark in hero. Spaces automatically format words line-by-line to preserve full large font size.
+                </span>
+              </div>
+              <div class="form-group">
+                <label>Location</label>
+                <input type="text" id="profLocation">
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Contacts &amp; Social Links</div>
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" id="profEmail">
+              </div>
+              <div class="form-group">
+                <label>Phone Number</label>
+                <input type="tel" id="profPhone">
+              </div>
+              <div class="form-group">
+                <label>GitHub URL</label>
+                <input type="text" id="profGithub">
+              </div>
+              <div class="form-group">
+                <label>GitHub Display Handle</label>
+                <input type="text" id="profGithubHandle" placeholder="@Kaif-Zaki">
+              </div>
+              <div class="form-group">
+                <label>LinkedIn URL</label>
+                <input type="text" id="profLinkedin">
+              </div>
+              <div class="form-group">
+                <label>LinkedIn Display Handle</label>
+                <input type="text" id="profLinkedinHandle" placeholder="/in/kaif-zaki">
+              </div>
+              <div class="form-group span-2">
+                <label>Resume / CV Document (PDF)</label>
+                <div style="display:flex;align-items:center;gap:14px;margin-top:6px;flex-wrap:wrap;">
+                  <div style="width:44px;height:44px;border-radius:10px;background:rgba(255,95,86,0.12);border:1px solid rgba(255,95,86,0.3);color:#ff5f56;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.8rem;">
+                    PDF
+                  </div>
+                  <input type="text" id="profResumeUrl" placeholder="/assets/Kaif_Zaki_Resume.pdf" style="flex:1;min-width:220px;">
+                  <label class="btn btn-secondary btn-sm" style="cursor:pointer;display:inline-flex;align-items:center;gap:6px;white-space:nowrap;">
+                    📄 Upload PDF to Assets
+                    <input type="file" id="uploadResumeFile" accept=".pdf,application/pdf" style="display:none;" onchange="handleFileUpload(event, 'profResumeUrl')">
+                  </label>
+                  <a id="profResumeDownloadLink" href="/assets/Kaif_Zaki_Resume.pdf" download class="btn btn-ghost btn-sm" style="display:inline-flex;align-items:center;gap:6px;white-space:nowrap;" target="_blank">
+                    ⬇️ Test Download
+                  </a>
+                </div>
+                <span style="font-size:0.75rem;color:var(--text-muted);display:block;margin-top:6px;">
+                  PDF saves directly into <code>assets/</code> and the path is stored in the database. The hero Resume button automatically downloads this file.
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Media &amp; GIF Asset Uploader</div>
+            <p style="color:var(--text-muted);font-size:0.85rem;margin-bottom:16px;">
+              Upload any animated GIF, SVG, or image directly into the <code>assets</code> folder. The uploaded URL can be used anywhere.
+            </p>
+            <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+              <img id="generalAssetPreview" src="/assets/hero-visual.gif" alt="Asset preview" style="width:120px;height:70px;border-radius:10px;object-fit:cover;border:1px solid var(--line);background:#090c10;">
+              <div style="flex:1;min-width:240px;">
+                <input type="text" id="generalAssetUrl" placeholder="/assets/uploaded-asset.gif" style="margin-bottom:8px;" readonly>
+                <label class="btn btn-secondary btn-sm" style="cursor:pointer;display:inline-flex;align-items:center;gap:6px;">
+                  📁 Upload New Image / GIF to Assets
+                  <input type="file" accept="image/*,.gif" style="display:none;" onchange="handleFileUpload(event, 'generalAssetUrl', 'generalAssetPreview')">
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- UNUSED ASSET CLEANUP & STORAGE MANAGER -->
+          <div class="card" id="assetCleanupCard">
+            <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:14px;">
+              <div>
+                <div class="card-title" style="margin-bottom:4px;">Unused Asset Cleanup &amp; Storage Manager</div>
+                <p style="color:var(--text-muted);font-size:0.85rem;margin:0;">
+                  Compares files in <code>public/assets/</code> with database references (profile, projects, series, resume). Safely removes unused uploaded media &amp; PDFs.
+                </p>
+              </div>
+              <button type="button" class="btn btn-secondary btn-sm" onclick="scanUnusedAssets()" id="btnScanAssets" style="display:inline-flex;align-items:center;gap:6px;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>
+                Scan &amp; Refresh
+              </button>
+            </div>
+
+            <div class="cleanup-grid">
+              <div class="cleanup-stat-card cleanup-stat-card--danger">
+                <div class="cleanup-stat-lbl">Unused Images &amp; GIFs</div>
+                <div class="cleanup-stat-num" id="unusedMediaCount" style="color:#ff6b6b;">0 files</div>
+                <div class="cleanup-stat-sub" id="unusedMediaSize">0 B unused</div>
+              </div>
+
+              <div class="cleanup-stat-card cleanup-stat-card--warning">
+                <div class="cleanup-stat-lbl">Unused PDFs</div>
+                <div class="cleanup-stat-num" id="unusedPdfCount" style="color:#ffa726;">0 files</div>
+                <div class="cleanup-stat-sub" id="unusedPdfSize">0 B unused</div>
+              </div>
+
+              <div class="cleanup-stat-card cleanup-stat-card--info">
+                <div class="cleanup-stat-lbl">Active In Database &amp; Core</div>
+                <div class="cleanup-stat-num" id="activeDbAssetsCount" style="color:#00e5ff;">0 files</div>
+                <div class="cleanup-stat-sub" id="totalAssetsSize">0 B total disk</div>
+              </div>
+            </div>
+
+            <!-- Primary Clean Action Buttons -->
+            <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px;">
+              <button type="button" class="btn btn-danger btn-sm" id="btnDeleteUnusedMedia" onclick="deleteUnusedAssets('media')" style="display:inline-flex;align-items:center;gap:8px;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
+                Delete Unused Images &amp; GIFs
+              </button>
+
+              <button type="button" class="btn btn-danger btn-sm" id="btnDeleteUnusedPdfs" onclick="deleteUnusedAssets('pdf')" style="display:inline-flex;align-items:center;gap:8px;background:rgba(255,95,86,0.18);border:1px solid #ff5f56;color:#ff5f56;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+                Delete Unused PDFs
+              </button>
+
+              <button type="button" class="btn btn-ghost btn-sm" id="btnDeleteAllUnused" onclick="deleteUnusedAssets('all')" style="display:inline-flex;align-items:center;gap:8px;">
+                🧹 Clean All Unused Files
+              </button>
+            </div>
+
+            <!-- List Preview of Detected Unused Files -->
+            <div style="border-top:1px solid var(--line);padding-top:16px;">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+                <span style="font-size:0.88rem;font-weight:600;color:var(--text);">Unused Files Detected On Disk</span>
+                <span style="font-size:0.78rem;color:var(--text-muted);" id="unusedFilesStatusSummary">Analyzing assets folder...</span>
+              </div>
+              <div id="unusedFilesList" style="display:flex;flex-direction:column;gap:8px;max-height:300px;overflow-y:auto;padding-right:4px;">
+                <!-- Populated dynamically via admin.js -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 3: ABOUT & STATS -->
+        <div id="tab-about" class="tab-pane">
+          <div class="pane-header">
+            <div>
+              <h2>About &amp; Animated Stats Counters</h2>
+              <p>Configure your professional bio paragraphs, developer visual GIF/image, and numeric counter badges.</p>
+            </div>
+            <button class="btn btn-primary" onclick="saveAboutSection()">Save About &amp; Stats</button>
+          </div>
+
+          <div class="card">
+            <div class="card-title">About Section Visual (Image or Animated GIF)</div>
+            <div style="display:flex;align-items:center;gap:18px;margin-bottom:8px;flex-wrap:wrap;">
+              <img id="aboutImgPreview" src="/assets/about-developer.gif" alt="About preview" style="width:110px;height:110px;border-radius:14px;object-fit:cover;border:1px solid var(--line);background:#090c10;">
+              <div style="flex:1;min-width:240px;">
+                <label style="display:block;font-size:0.85rem;color:var(--text-muted);margin-bottom:6px;">Image / GIF Path (Saved in Database)</label>
+                <input type="text" id="profAboutImage" placeholder="/assets/about-developer.gif" style="margin-bottom:10px;">
+                <label class="btn btn-secondary btn-sm" style="cursor:pointer;display:inline-flex;align-items:center;gap:6px;">
+                  📁 Upload New About GIF / Image
+                  <input type="file" accept="image/*,.gif" style="display:none;" onchange="handleFileUpload(event, 'profAboutImage', 'aboutImgPreview')">
+                </label>
+                <span style="font-size:0.75rem;color:var(--text-muted);display:block;margin-top:6px;">Uploads save directly into <code>assets/</code> and the path is stored in MySQL.</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">About Section Narrative</div>
+            <div class="form-grid form-grid--full">
+              <div class="form-group">
+                <label>About Headline</label>
+                <input type="text" id="profAboutHeadline">
+              </div>
+              <div class="form-group">
+                <label>Bio Paragraph 1</label>
+                <textarea id="profBioP1" rows="4"></textarea>
+              </div>
+              <div class="form-group">
+                <label>Bio Paragraph 2</label>
+                <textarea id="profBioP2" rows="4"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Interactive Numeric Stat Counters</div>
+            <p style="color:var(--text-muted);font-size:0.85rem;margin-bottom:16px;">
+              These numbers automatically animate when scrolled into view using cubic-bezier easing.
+            </p>
+            <div id="statsEditorList" class="form-grid form-grid--full"></div>
+          </div>
+        </div>
+
+        <!-- TAB 4: EXPERIENCE -->
+        <div id="tab-experience" class="tab-pane">
+          <div class="pane-header">
+            <div>
+              <h2>Work Experience (Timeline)</h2>
+              <p>Add, edit, or remove career roles and bullet point achievements.</p>
+            </div>
+            <button class="btn btn-primary" onclick="openAddExpModal()">+ Add New Role</button>
+          </div>
+          <div id="experienceList"></div>
+        </div>
+
+        <!-- TAB 5: PROJECTS -->
+        <div id="tab-projects" class="tab-pane">
+          <div class="pane-header">
+            <div>
+              <h2>Featured Projects</h2>
+              <p>Manage project cards, outcomes, tech stack tags, and architecture diagrams.</p>
+            </div>
+            <button class="btn btn-primary" onclick="openAddProjectModal()">+ Add New Project</button>
+          </div>
+          <div id="projectsList"></div>
+        </div>
+
+        <!-- TAB 6: SKILLS CATEGORIES -->
+        <div id="tab-skills" class="tab-pane">
+          <div class="pane-header">
+            <div>
+              <h2>Skill Categories &amp; Tech Chips</h2>
+              <p>Customize the 9 category cards and simple-icons tags (e.g. <code>react:React,docker:Docker</code>).</p>
+            </div>
+            <button class="btn btn-primary" onclick="openAddSkillModal()">+ Add Category</button>
+          </div>
+          <div id="skillsList"></div>
+        </div>
+
+        <!-- TAB 7: CREDENTIALS & EDUCATION -->
+        <div id="tab-credentials" class="tab-pane">
+          <div class="pane-header">
+            <div>
+              <h2>Certifications &amp; Education</h2>
+              <p>Manage academic background and verified engineering certificates.</p>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">
+              <span>Certificates &amp; Awards</span>
+              <button class="btn btn-outline-accent btn-sm" onclick="openAddCertModal()">+ Add Certificate</button>
+            </div>
+            <div id="certsList"></div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">
+              <span>Education Background</span>
+              <button class="btn btn-outline-accent btn-sm" onclick="openAddEduModal()">+ Add Education</button>
+            </div>
+            <div id="eduList"></div>
+          </div>
+        </div>
+
+        <!-- TAB 8: SERIES & ARTICLES -->
+        <div id="tab-series" class="tab-pane">
+          <div class="pane-header">
+            <div>
+              <h2>Technical Deep Dives &amp; Series</h2>
+              <p>Manage featured carousel walkthrough cards on the front page.</p>
+            </div>
+            <button class="btn btn-primary" onclick="openAddSeriesModal()">+ Add Series Item</button>
+          </div>
+          <div id="seriesList"></div>
+        </div>
+
+        <!-- TAB 9: AVAILABILITY & STATUS -->
+        <div id="tab-availability" class="tab-pane">
+          <div class="pane-header">
+            <div>
+              <h2>Availability &amp; Hiring Status</h2>
+              <p>Control your active hiring beacon, engagement types, target roles &amp; modes.</p>
+            </div>
+            <button class="btn btn-primary" onclick="saveAvailabilitySection()">Save Availability Settings</button>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Availability Badge &amp; Switch</div>
+            <div class="form-grid">
+              <div class="form-group span-2">
+                <label class="switch-label">
+                  <span>Open to Work Status Pill</span>
+                  <div class="switch">
+                    <input type="checkbox" id="availOpenToWork">
+                    <span class="slider"></span>
+                  </div>
+                </label>
+              </div>
+              <div class="form-group">
+                <label>Badge Pill Text</label>
+                <input type="text" id="availBadgeText" placeholder="Open to work">
+              </div>
+              <div class="form-group">
+                <label>Engagement Types</label>
+                <input type="text" id="availEngagement" placeholder="Full-time · contract · freelance">
+              </div>
+              <div class="form-group span-2">
+                <label>Target Roles</label>
+                <input type="text" id="availTargetRoles">
+              </div>
+              <div class="form-group">
+                <label>Location &amp; Timezone</label>
+                <input type="text" id="availLocation">
+              </div>
+              <div class="form-group">
+                <label>Work Mode</label>
+                <input type="text" id="availWorkMode" placeholder="Remote / Hybrid / On-site">
+              </div>
+              <div class="form-group span-2">
+                <label>Contact Intro Callout Subtext</label>
+                <textarea id="availSubtext" rows="3"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 10: SECURITY & BACKUPS -->
+        <div id="tab-settings" class="tab-pane">
+          <div class="pane-header">
+            <div>
+              <h2>Security &amp; System Backups</h2>
+              <p>Manage password credentials, download JSON backups, or restore defaults.</p>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Change Admin Login Credentials</div>
+            <form id="changePasswordForm">
+              <div class="form-grid">
+                <div class="form-group">
+                  <label>Current Password</label>
+                  <input type="password" id="currPassword" required placeholder="••••••••">
+                </div>
+                <div class="form-group">
+                  <label>New Username (leave blank to keep current)</label>
+                  <input type="text" id="newUsername" placeholder="admin">
+                </div>
+                <div class="form-group span-2">
+                  <label>New Password (min 6 chars, leave blank to keep unchanged)</label>
+                  <input type="password" id="newPassword" placeholder="••••••••">
+                </div>
+              </div>
+              <div style="margin-top:18px;">
+                <button type="submit" class="btn btn-primary">Update Admin Password</button>
+              </div>
+            </form>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Backup &amp; Data Management</div>
+            <p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:20px;">
+              Export all your portfolio data as a JSON file or import a previous backup.
+            </p>
+            <div style="display:flex;gap:14px;flex-wrap:wrap;">
+              <button class="btn btn-outline-accent" onclick="exportPortfolioJSON()">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Export Portfolio Backup (JSON)
+              </button>
+              <button class="btn btn-ghost" onclick="triggerImportJSON()">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                Import Backup (JSON)
+              </button>
+              <input type="file" id="importFileInput" accept=".json" style="display:none;" onchange="handleImportFile(event)">
+            </div>
+          </div>
+
+          <div class="card" style="border-color:rgba(255,95,86,0.3);">
+            <div class="card-title" style="color:var(--danger);">Danger Zone: Restore Resume Defaults</div>
+            <p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:18px;">
+              Reset all portfolio data back to Kaif Zaki's original resume details. This overwrites custom changes with the pristine defaults.
+            </p>
+            <button class="btn btn-danger" onclick="resetToDefaults()">
+              Reset to Original Resume Defaults
+            </button>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- GENERIC MODAL FOR EDITING ITEMS -->
+  <div id="modalOverlay" class="modal-overlay">
+    <div class="modal">
+      <div class="modal-head">
+        <h3 id="modalTitle">Edit Item</h3>
+        <button class="modal-close" onclick="closeModal()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div id="modalBody"></div>
+      <div style="margin-top:24px;display:flex;justify-content:flex-end;gap:12px;">
+        <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+        <button class="btn btn-primary" id="modalSaveBtn">Save Changes</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION CONTAINER -->
+  <div id="toastContainer"></div>
+
+  <script src="/admin/admin.js"></script>
+</body>
+</html>
