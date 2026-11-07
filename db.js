@@ -100,7 +100,7 @@ async function getPortfolioData() {
     const marqueeTools = marqueeRows.map(m => [m.slug, m.label]);
 
     // 4. Series
-    const [seriesRows] = await p.query('SELECT * FROM `series` ORDER BY `order_idx` ASC, `id` ASC');
+    const [seriesRows] = await p.query('SELECT * FROM `series` ORDER BY `order_idx` ASC, `id` DESC');
     const series = seriesRows.map(s => ({
       id: s.id,
       tag: s.tag,
@@ -112,7 +112,7 @@ async function getPortfolioData() {
     }));
 
     // 5. Skill Categories
-    const [skillRows] = await p.query('SELECT * FROM `skill_categories` ORDER BY `order_idx` ASC, `id` ASC');
+    const [skillRows] = await p.query('SELECT * FROM `skill_categories` ORDER BY `order_idx` ASC, `id` DESC');
     const skillCategories = skillRows.map(sc => ({
       id: sc.id,
       title: sc.title,
@@ -121,7 +121,7 @@ async function getPortfolioData() {
     }));
 
     // 6. Experience
-    const [expRows] = await p.query('SELECT * FROM `experience` ORDER BY `order_idx` ASC, `id` ASC');
+    const [expRows] = await p.query('SELECT * FROM `experience` ORDER BY `order_idx` ASC, `id` DESC');
     const experience = expRows.map(e => ({
       id: e.id,
       role: e.role,
@@ -132,7 +132,7 @@ async function getPortfolioData() {
     }));
 
     // 7. Projects
-    const [projRows] = await p.query('SELECT * FROM `projects` ORDER BY `order_idx` ASC, `id` ASC');
+    const [projRows] = await p.query('SELECT * FROM `projects` ORDER BY `order_idx` ASC, `id` DESC');
     const projects = projRows.map(pr => ({
       id: pr.id,
       title: pr.title,
@@ -149,7 +149,7 @@ async function getPortfolioData() {
     }));
 
     // 8. Certifications
-    const [certRows] = await p.query('SELECT * FROM `certifications` ORDER BY `order_idx` ASC, `id` ASC');
+    const [certRows] = await p.query('SELECT * FROM `certifications` ORDER BY `order_idx` ASC, `id` DESC');
     const certifications = certRows.map(c => ({
       id: c.id,
       title: c.title,
@@ -158,7 +158,7 @@ async function getPortfolioData() {
     }));
 
     // 9. Education
-    const [eduRows] = await p.query('SELECT * FROM `education` ORDER BY `order_idx` ASC, `id` ASC');
+    const [eduRows] = await p.query('SELECT * FROM `education` ORDER BY `order_idx` ASC, `id` DESC');
     const education = eduRows.map(ed => ({
       id: ed.id,
       degree: ed.degree,
@@ -293,7 +293,7 @@ async function savePortfolioData(data) {
         if (key) seenSeries.add(key);
         await conn.query(
           'INSERT INTO `series` (`tag`, `title`, `description`, `image`, `link`, `cta`, `order_idx`) VALUES (?, ?, ?, ?, ?, ?, ?)',
-          [s.tag || '', s.title, s.description || '', s.image || '', s.link || '#projects', s.cta || 'Explore architecture →', serIdx++]
+          [s.tag || '', s.title, s.description || '', s.image || '', s.link || '#projects', s.cta || 'Explore architecture', serIdx++]
         );
       }
     }

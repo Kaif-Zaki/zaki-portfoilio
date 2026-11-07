@@ -24,8 +24,18 @@ if (!fs.existsSync(ASSETS_DIR)) {
 // In-memory active session tokens
 const activeSessions = new Set();
 
-app.use(express.json({ limit: '25mb' }));
-app.use(express.urlencoded({ extended: true, limit: '25mb' }));
+// Process safety handlers preventing unhandled stream errors from crashing Node process
+process.on('uncaughtException', (err) => {
+  console.error('⚠️ [Safety Guard] Unhandled Exception caught:', err.message);
+});
+process.on('unhandledRejection', (reason) => {
+  console.error('⚠️ [Safety Guard] Unhandled Rejection caught:', reason);
+});
+
+// Body parsing with vulnerability patch (CVE-2024-45590):
+// Pass inflate: false to reject compressed bodies and prevent unhandled decompression stream crashes
+app.use(express.json({ limit: '25mb', inflate: false }));
+app.use(express.urlencoded({ extended: true, limit: '25mb', inflate: false }));
 app.use(cookieParser());
 
 // Multer storage for uploads: Saves directly into public/assets folder
@@ -37,9 +47,23 @@ const storage = multer.diskStorage({
     cb(null, `${base}_${Date.now()}${ext}`);
   }
 });
+
+// Synchronous file filter (strictly synchronous, no async/await or delayed tick)
+// Patches Multer async fileFilter stream crash vulnerability
+const ALLOWED_UPLOAD_EXTS = new Set(['.png', '.jpg', '.jpeg', '.gif', '.svg', '.webp', '.pdf', '.ico']);
+function synchronousFileFilter(req, file, cb) {
+  const ext = path.extname(file.originalname || '').toLowerCase();
+  if (ALLOWED_UPLOAD_EXTS.has(ext)) {
+    cb(null, true);
+  } else {
+    cb(new Error(`File type ${ext || 'unknown'} is not allowed. Supported types: ${Array.from(ALLOWED_UPLOAD_EXTS).join(', ')}`), false);
+  }
+}
+
 const upload = multer({
   storage,
-  limits: { fileSize: 25 * 1024 * 1024 }
+  limits: { fileSize: 25 * 1024 * 1024 },
+  fileFilter: synchronousFileFilter
 });
 
 function hashPassword(password, salt) {
@@ -221,13 +245,21 @@ app.post('/api/portfolio/reset', requireAuth, async (req, res) => {
   }
 });
 
-// Protected API: File upload directly into assets folder
-app.post('/api/upload', requireAuth, upload.single('file'), (req, res) => {
-  if (!req.file) {
-    return res.status(400).json({ error: 'No file uploaded' });
-  }
-  const fileUrl = `/assets/${req.file.filename}`;
-  res.json({ success: true, url: fileUrl, filename: req.file.filename });
+// Protected API: File upload directly into assets folder (with Multer error handling)
+app.post('/api/upload', requireAuth, (req, res) => {
+  upload.single('file')(req, res, (err) => {
+    if (err) {
+      if (err instanceof multer.MulterError) {
+        return res.status(400).json({ error: `Upload error: ${err.message}` });
+      }
+      return res.status(400).json({ error: err.message || 'File upload rejected' });
+    }
+    if (!req.file) {
+      return res.status(400).json({ error: 'No file uploaded' });
+    }
+    const fileUrl = `/assets/${req.file.filename}`;
+    res.json({ success: true, url: fileUrl, filename: req.file.filename });
+  });
 });
 
 function formatBytes(bytes) {
@@ -408,16 +440,30 @@ app.post('/api/assets/delete-unused', requireAuth, async (req, res) => {
   }
 });
 
-// Serve static frontend files
-app.use(express.static(path.join(__dirname, 'public')));
+// Serve static frontend files with no-cache headers for scripts, styles, and HTML
+app.use(express.static(path.join(__dirname, 'public'), {
+  setHeaders: (res, filePath) => {
+    if (filePath.endsWith('.html') || filePath.endsWith('.js') || filePath.endsWith('.css')) {
+      res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+      res.setHeader('Pragma', 'no-cache');
+      res.setHeader('Expires', '0');
+    }
+  }
+}));
 
 // Admin portal routes
 app.get(/^\/admin(\/.*)?$/, (req, res) => {
+  res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+  res.setHeader('Pragma', 'no-cache');
+  res.setHeader('Expires', '0');
   res.sendFile(path.join(__dirname, 'public', 'admin', 'index.html'));
 });
 
 // Fallback to portfolio index
 app.use((req, res) => {
+  res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+  res.setHeader('Pragma', 'no-cache');
+  res.setHeader('Expires', '0');
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 

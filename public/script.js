@@ -184,18 +184,19 @@ function renderPortfolio(data) {
       const card = document.createElement("a");
       card.className = "writing-card";
       card.href = item.link || "#projects";
-      card.innerHTML = `
-        <div class="writing-card-media">
-          <img src="${item.image || '/assets/series-microservices.gif'}" alt="${item.title}" loading="lazy">
-        </div>
-        <div class="writing-card-body">
-          <span class="writing-card-tag">${item.tag || 'Architecture'}</span>
-          <h3>${item.title}</h3>
-          <p>${item.description}</p>
-          <span class="writing-card-cta">${item.cta || 'Read more →'}</span>
-        </div>
-      `;
-      writingTrack.appendChild(card);
+        const ctaLabel = (item.cta || 'Read more').replace(/[→↗➔➜➤]/g, '').trim();
+        card.innerHTML = `
+          <div class="writing-card-media">
+            <img src="${item.image || '/assets/series-microservices.gif'}" alt="${item.title}" loading="lazy">
+          </div>
+          <div class="writing-card-body">
+            <span class="writing-card-tag">${item.tag || 'Architecture'}</span>
+            <h3>${item.title}</h3>
+            <p>${item.description}</p>
+            <span class="writing-card-cta">${ctaLabel} <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-left:4px;"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></span>
+          </div>
+        `;
+        writingTrack.appendChild(card);
     });
   }
 
@@ -295,14 +296,14 @@ function renderPortfolio(data) {
             <a href="${p.githubUrl}" target="_blank" rel="noopener noreferrer" class="project-link-btn project-link-btn--github" onclick="event.stopPropagation()" aria-label="View ${p.title} on GitHub">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
               <span>GitHub</span>
-              <span class="link-arrow">↗</span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="inline-arrow-icon" aria-hidden="true" style="margin-left:4px;vertical-align:middle;display:inline-block;"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
             </a>
           ` : ''}
           ${p.liveUrl ? `
             <a href="${p.liveUrl}" target="_blank" rel="noopener noreferrer" class="project-link-btn project-link-btn--live" onclick="event.stopPropagation()" aria-label="Open live preview of ${p.title}">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
               <span>Live Preview</span>
-              <span class="link-arrow">↗</span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="inline-arrow-icon" aria-hidden="true" style="margin-left:4px;vertical-align:middle;display:inline-block;"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
             </a>
           ` : ''}
         </div>
@@ -335,7 +336,7 @@ function renderPortfolio(data) {
       if (hasLink) {
         li.innerHTML = `
           <a href="${c.link.trim()}" target="_blank" rel="noopener noreferrer" class="cred-link" aria-label="View verified certificate for ${c.title}">
-            <span>${c.title} <span class="cred-link-icon">↗</span></span>
+            <span>${c.title} <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="inline-arrow-icon" aria-hidden="true" style="margin-left:4px;vertical-align:middle;display:inline-block;"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg></span>
             <em>${c.issuer || ''}</em>
           </a>
         `;
@@ -398,17 +399,41 @@ function renderPortfolio(data) {
     });
   }
 
+  // Education Timeline (Formatted identically to Experience Timeline)
+  const eduTimeline = document.getElementById("eduTimeline");
   const eduList = document.getElementById("eduList");
-  if (eduList && Array.isArray(education)) {
-    eduList.innerHTML = "";
+  const targetEdu = eduTimeline || eduList;
+
+  if (targetEdu && Array.isArray(education)) {
+    targetEdu.innerHTML = "";
     education.forEach((e) => {
-      const li = document.createElement("li");
-      li.innerHTML = `
-        <span>${e.degree}</span>
-        <em>${e.institution} · ${e.period}</em>
-        ${e.coursework ? `<div class="cred-coursework">Coursework: ${e.coursework}</div>` : ''}
+      const item = document.createElement("div");
+      item.className = "tl-item reveal";
+
+      let bulletsHtml = "";
+      if (e.coursework && e.coursework.trim()) {
+        const raw = e.coursework.trim();
+        let listItems = [];
+        if (raw.includes("\n")) {
+          listItems = raw.split("\n").map(s => s.trim().replace(/^[-*•]\s*/, '')).filter(Boolean);
+        } else if (raw.includes(",")) {
+          listItems = raw.split(",").map(s => s.trim().replace(/^[-*•]\s*/, '')).filter(Boolean);
+        } else {
+          listItems = [raw];
+        }
+        bulletsHtml = listItems.map(item => `<li>${item}</li>`).join("");
+      }
+
+      item.innerHTML = `
+        <div class="tl-marker"></div>
+        <div class="tl-date">${e.period || ''}</div>
+        <div class="tl-body">
+          <h3>${e.degree}</h3>
+          <p class="tl-org">${e.institution}</p>
+          ${bulletsHtml ? `<ul>${bulletsHtml}</ul>` : ''}
+        </div>
       `;
-      eduList.appendChild(li);
+      targetEdu.appendChild(item);
     });
   }
 
@@ -482,6 +507,7 @@ function renderPortfolio(data) {
   attachDiagramHandlers();
   observeReveals();
   observeCounters();
+  if (typeof updateAllTimelineProgress === "function") updateAllTimelineProgress();
 }
 
 // ============================================
@@ -742,22 +768,21 @@ if (writingViewport && writingPrev && writingNext) {
 }
 
 // ============================================
-// Timeline Scroll Progress Line
+// Timeline Scroll Progress Line (Experience & Education)
 // ============================================
-const timelineEl = document.getElementById("timeline");
-if (timelineEl) {
-  const updateTimelineProgress = () => {
-    const rect = timelineEl.getBoundingClientRect();
+function updateAllTimelineProgress() {
+  document.querySelectorAll(".timeline").forEach((tl) => {
+    const rect = tl.getBoundingClientRect();
     const viewportH = window.innerHeight;
     const total = rect.height;
     const visible = Math.min(Math.max(viewportH * 0.6 - rect.top, 0), total);
     const pct = total > 0 ? (visible / total) * 100 : 0;
-    timelineEl.style.setProperty("--tl-progress", `${pct}%`);
-  };
-  updateTimelineProgress();
-  window.addEventListener("scroll", updateTimelineProgress, { passive: true });
-  window.addEventListener("resize", updateTimelineProgress);
+    tl.style.setProperty("--tl-progress", `${pct}%`);
+  });
 }
+updateAllTimelineProgress();
+window.addEventListener("scroll", updateAllTimelineProgress, { passive: true });
+window.addEventListener("resize", updateAllTimelineProgress);
 
 // ============================================
 // Scroll Reveals

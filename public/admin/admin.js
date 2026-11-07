@@ -331,6 +331,17 @@ function renderStatsEditor(stats) {
   });
 }
 
+// Generic Move Up / Move Down Helper for ordered collections
+async function moveItem(collection, index, direction) {
+  if (!portfolioData || !Array.isArray(portfolioData[collection])) return;
+  const targetIndex = index + direction;
+  if (targetIndex < 0 || targetIndex >= portfolioData[collection].length) return;
+  const item = portfolioData[collection].splice(index, 1)[0];
+  portfolioData[collection].splice(targetIndex, 0, item);
+  await savePortfolio(true);
+  populateAllTabs();
+}
+
 // Experience List
 function renderExperienceList(list) {
   const container = document.getElementById("experienceList");
@@ -352,6 +363,8 @@ function renderExperienceList(list) {
           <div class="item-subtitle">${exp.company} ${exp.location ? '· ' + exp.location : ''} (${exp.period})</div>
         </div>
         <div class="item-actions">
+          <button class="btn btn-ghost btn-sm" onclick="moveItem('experience', ${index}, -1)" ${index === 0 ? 'disabled style="opacity:0.3;cursor:not-allowed;"' : ''} title="Move Up (Show earlier)">↑</button>
+          <button class="btn btn-ghost btn-sm" onclick="moveItem('experience', ${index}, 1)" ${index === list.length - 1 ? 'disabled style="opacity:0.3;cursor:not-allowed;"' : ''} title="Move Down (Show later)">↓</button>
           <button class="btn btn-ghost btn-sm" onclick="openEditExpModal(${index})">Edit</button>
           <button class="btn btn-danger btn-sm" onclick="deleteExperience(${index})">Delete</button>
         </div>
@@ -424,7 +437,7 @@ function openExpModal(exp = null, index = null) {
     if (isEdit) {
       portfolioData.experience[index] = newObj;
     } else {
-      portfolioData.experience.push(newObj);
+      portfolioData.experience.unshift(newObj);
     }
     await savePortfolio();
     closeModal();
@@ -458,6 +471,8 @@ function renderProjectsList(list) {
           <div class="item-subtitle">${p.tag || 'Project'}</div>
         </div>
         <div class="item-actions">
+          <button class="btn btn-ghost btn-sm" onclick="moveItem('projects', ${index}, -1)" ${index === 0 ? 'disabled style="opacity:0.3;cursor:not-allowed;"' : ''} title="Move Up (Show earlier)">↑</button>
+          <button class="btn btn-ghost btn-sm" onclick="moveItem('projects', ${index}, 1)" ${index === list.length - 1 ? 'disabled style="opacity:0.3;cursor:not-allowed;"' : ''} title="Move Down (Show later)">↓</button>
           <button class="btn btn-ghost btn-sm" onclick="openEditProjectModal(${index})">Edit</button>
           <button class="btn btn-danger btn-sm" onclick="deleteProject(${index})">Delete</button>
         </div>
@@ -466,8 +481,8 @@ function renderProjectsList(list) {
       <div style="font-size:0.8rem;color:var(--accent);margin-bottom:6px;">Tech Chips: <code>${p.chips || ''}</code></div>
       ${p.diagramUrl ? `<div style="font-size:0.78rem;color:var(--text-faint);margin-bottom:6px;">Diagram: ${p.diagramUrl}</div>` : ''}
       <div style="display:flex;gap:12px;font-size:0.82rem;flex-wrap:wrap;margin-top:6px;">
-        ${p.githubUrl ? `<a href="${p.githubUrl}" target="_blank" style="color:var(--accent);display:inline-flex;align-items:center;gap:4px;">📦 GitHub ↗</a>` : '<span style="color:var(--text-faint)">No GitHub link</span>'}
-        ${p.liveUrl ? `<a href="${p.liveUrl}" target="_blank" style="color:#00ffbe;display:inline-flex;align-items:center;gap:4px;">🌐 Live Demo ↗</a>` : '<span style="color:var(--text-faint)">No Live Demo link</span>'}
+        ${p.githubUrl ? `<a href="${p.githubUrl}" target="_blank" style="color:var(--accent);display:inline-flex;align-items:center;gap:4px;">📦 GitHub <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg></a>` : '<span style="color:var(--text-faint)">No GitHub link</span>'}
+        ${p.liveUrl ? `<a href="${p.liveUrl}" target="_blank" style="color:#00ffbe;display:inline-flex;align-items:center;gap:4px;">🌐 Live Demo <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg></a>` : '<span style="color:var(--text-faint)">No Live Demo link</span>'}
       </div>
     `;
     container.appendChild(card);
@@ -575,7 +590,7 @@ function openProjectModal(proj = null, index = null) {
     if (isEdit) {
       portfolioData.projects[index] = newObj;
     } else {
-      portfolioData.projects.push(newObj);
+      portfolioData.projects.unshift(newObj);
     }
     await savePortfolio();
     closeModal();
@@ -604,6 +619,8 @@ function renderSkillsList(list) {
           <div class="item-subtitle" style="word-break:break-all;">Chips: ${sc.chips || ''}</div>
         </div>
         <div class="item-actions">
+          <button class="btn btn-ghost btn-sm" onclick="moveItem('skillCategories', ${index}, -1)" ${index === 0 ? 'disabled style="opacity:0.3;cursor:not-allowed;"' : ''} title="Move Up (Show earlier)">↑</button>
+          <button class="btn btn-ghost btn-sm" onclick="moveItem('skillCategories', ${index}, 1)" ${index === list.length - 1 ? 'disabled style="opacity:0.3;cursor:not-allowed;"' : ''} title="Move Down (Show later)">↓</button>
           <button class="btn btn-ghost btn-sm" onclick="openEditSkillModal(${index})">Edit</button>
           <button class="btn btn-danger btn-sm" onclick="deleteSkill(${index})">Delete</button>
         </div>
@@ -650,7 +667,7 @@ function openSkillModal(sc = null, index = null) {
     if (isEdit) {
       portfolioData.skillCategories[index] = newObj;
     } else {
-      portfolioData.skillCategories.push(newObj);
+      portfolioData.skillCategories.unshift(newObj);
     }
     await savePortfolio();
     closeModal();
@@ -686,9 +703,11 @@ function renderCertsList(list) {
       <div style="flex:1;min-width:0;">
         <div style="font-weight:600;color:var(--text);">${c.title}</div>
         <div style="font-size:0.8rem;color:var(--text-faint);">${c.issuer || ''}</div>
-        ${hasLink ? `<a href="${c.link}" target="_blank" style="font-size:0.75rem;color:var(--accent);text-decoration:none;display:inline-flex;align-items:center;gap:3px;margin-top:2px;">🔗 ${c.link} ↗</a>` : '<span style="font-size:0.75rem;color:var(--text-faint);">No verification link</span>'}
+        ${hasLink ? `<a href="${c.link}" target="_blank" style="font-size:0.75rem;color:var(--accent);text-decoration:none;display:inline-flex;align-items:center;gap:3px;margin-top:2px;">🔗 ${c.link} <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg></a>` : '<span style="font-size:0.75rem;color:var(--text-faint);">No verification link</span>'}
       </div>
-      <div style="display:flex;gap:8px;flex-shrink:0;">
+      <div style="display:flex;gap:6px;flex-shrink:0;">
+        <button class="btn btn-ghost btn-sm" onclick="moveItem('certifications', ${index}, -1)" ${index === 0 ? 'disabled style="opacity:0.3;cursor:not-allowed;"' : ''} title="Move Up (Show earlier)">↑</button>
+        <button class="btn btn-ghost btn-sm" onclick="moveItem('certifications', ${index}, 1)" ${index === list.length - 1 ? 'disabled style="opacity:0.3;cursor:not-allowed;"' : ''} title="Move Down (Show later)">↓</button>
         <button class="btn btn-ghost btn-sm" onclick="openEditCertModal(${index})">Edit</button>
         <button class="btn btn-danger btn-sm" onclick="deleteCert(${index})">Remove</button>
       </div>
@@ -745,7 +764,7 @@ function openCertModal(cert = null, index = null) {
     if (isEdit) {
       portfolioData.certifications[index] = certObj;
     } else {
-      portfolioData.certifications.push(certObj);
+      portfolioData.certifications.unshift(certObj);
     }
     await savePortfolio();
     closeModal();
@@ -762,43 +781,56 @@ async function deleteCert(index) {
 function renderEduList(list) {
   const container = document.getElementById("eduList");
   container.innerHTML = "";
+  if (!list || !list.length) {
+    container.innerHTML = `<p style="color:var(--text-muted);font-size:0.85rem;">No education entries added yet.</p>`;
+    return;
+  }
   list.forEach((e, index) => {
     const div = document.createElement("div");
     div.style.padding = "14px 0";
     div.style.borderBottom = "1px solid var(--line-soft)";
     div.innerHTML = `
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;">
-        <div>
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;">
+        <div style="flex:1;min-width:0;">
           <div style="font-weight:600;color:var(--text);">${e.degree}</div>
           <div style="font-size:0.85rem;color:var(--accent);">${e.institution} · ${e.period}</div>
           ${e.coursework ? `<div style="font-size:0.8rem;color:var(--text-muted);margin-top:4px;">${e.coursework}</div>` : ''}
         </div>
-        <button class="btn btn-danger btn-sm" onclick="deleteEdu(${index})">Remove</button>
+        <div style="display:flex;gap:6px;flex-shrink:0;">
+          <button class="btn btn-ghost btn-sm" onclick="moveItem('education', ${index}, -1)" ${index === 0 ? 'disabled style="opacity:0.3;cursor:not-allowed;"' : ''} title="Move Up (Show earlier)">↑</button>
+          <button class="btn btn-ghost btn-sm" onclick="moveItem('education', ${index}, 1)" ${index === list.length - 1 ? 'disabled style="opacity:0.3;cursor:not-allowed;"' : ''} title="Move Down (Show later)">↓</button>
+          <button class="btn btn-ghost btn-sm" onclick="openEditEduModal(${index})">Edit</button>
+          <button class="btn btn-danger btn-sm" onclick="deleteEdu(${index})">Remove</button>
+        </div>
       </div>
     `;
     container.appendChild(div);
   });
 }
 
-function openAddEduModal() {
-  document.getElementById("modalTitle").textContent = "Add Education";
+function openAddEduModal() { openEduModal(); }
+function openEditEduModal(index) { openEduModal(portfolioData.education[index], index); }
+
+function openEduModal(edu = null, index = null) {
+  const isEdit = index !== null;
+  document.getElementById("modalTitle").textContent = isEdit ? "Edit Education" : "Add Education";
   document.getElementById("modalBody").innerHTML = `
     <div class="form-grid form-grid--full">
       <div class="form-group">
         <label>Degree / Qualification</label>
-        <input type="text" id="mEduDegree" required placeholder="Higher National Diploma in Software Engineering">
+        <input type="text" id="mEduDegree" value="${edu?.degree || ''}" required placeholder="Higher National Diploma in Software Engineering">
       </div>
       <div class="form-group">
         <label>Institution</label>
-        <input type="text" id="mEduInst" required placeholder="IJSE - Institute of Software Engineering">
+        <input type="text" id="mEduInst" value="${edu?.institution || ''}" required placeholder="IJSE - Institute of Software Engineering">
       </div>
       <div class="form-group">
         <label>Period</label>
-        <input type="text" id="mEduPeriod" placeholder="2023 — 2026">
+        <input type="text" id="mEduPeriod" value="${edu?.period || ''}" placeholder="2023 — 2026">
       </div>
       <div class="form-group">
         <label>Relevant Coursework</label>
-        <textarea id="mEduCoursework" rows="3" placeholder="OOP, Databases, DSA, Networks..."></textarea>
+        <textarea id="mEduCoursework" rows="3" placeholder="OOP, Databases, DSA, Networks...">${edu?.coursework || ''}</textarea>
       </div>
     </div>
   `;
@@ -806,12 +838,21 @@ function openAddEduModal() {
     const degree = document.getElementById("mEduDegree").value.trim();
     const inst = document.getElementById("mEduInst").value.trim();
     if (!degree || !inst) return showToast("Degree and Institution required", "error");
-    portfolioData.education.push({
+
+    const newObj = {
+      id: edu?.id || `edu_${Date.now()}`,
       degree,
       institution: inst,
       period: document.getElementById("mEduPeriod").value.trim(),
       coursework: document.getElementById("mEduCoursework").value.trim()
-    });
+    };
+
+    if (!portfolioData.education) portfolioData.education = [];
+    if (isEdit) {
+      portfolioData.education[index] = newObj;
+    } else {
+      portfolioData.education.unshift(newObj);
+    }
     await savePortfolio();
     closeModal();
   };
@@ -840,6 +881,8 @@ function renderSeriesList(list) {
           </div>
         </div>
         <div class="item-actions">
+          <button class="btn btn-ghost btn-sm" onclick="moveItem('series', ${index}, -1)" ${index === 0 ? 'disabled style="opacity:0.3;cursor:not-allowed;"' : ''} title="Move Up (Show earlier)">↑</button>
+          <button class="btn btn-ghost btn-sm" onclick="moveItem('series', ${index}, 1)" ${index === list.length - 1 ? 'disabled style="opacity:0.3;cursor:not-allowed;"' : ''} title="Move Down (Show later)">↓</button>
           <button class="btn btn-ghost btn-sm" onclick="openEditSeriesModal(${index})">Edit</button>
           <button class="btn btn-danger btn-sm" onclick="deleteSeries(${index})">Delete</button>
         </div>
@@ -884,7 +927,7 @@ function openSeriesModal(item = null, index = null) {
       </div>
       <div class="form-group">
         <label>Read More CTA Text</label>
-        <input type="text" id="mSeriesCta" value="${item?.cta || 'Explore architecture →'}" placeholder="Explore architecture →">
+        <input type="text" id="mSeriesCta" value="${(item?.cta || 'Explore architecture').replace(/[→↗➔➜➤]/g, '').trim()}" placeholder="Explore architecture">
       </div>
       <div class="form-group">
         <label>Destination Link (URL or Anchor)</label>
@@ -904,14 +947,14 @@ function openSeriesModal(item = null, index = null) {
       description: document.getElementById("mSeriesDesc").value.trim(),
       image: document.getElementById("mSeriesImg").value.trim() || "/assets/series-microservices.gif",
       link: document.getElementById("mSeriesLink").value.trim() || "#projects",
-      cta: document.getElementById("mSeriesCta").value.trim() || "Explore architecture →"
+      cta: document.getElementById("mSeriesCta").value.trim() || "Explore architecture"
     };
 
     if (!portfolioData.series) portfolioData.series = [];
     if (isEdit) {
       portfolioData.series[index] = newObj;
     } else {
-      portfolioData.series.push(newObj);
+      portfolioData.series.unshift(newObj);
     }
     await savePortfolio();
     closeModal();
