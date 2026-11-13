@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS `profile` (
   `hero_tagline` VARCHAR(255),
   `hero_sub` TEXT,
   `watermark` VARCHAR(50),
-  `about_image` VARCHAR(255) DEFAULT '/assets/about-developer.gif',
+  `about_image` VARCHAR(255) DEFAULT '/assets/kaif-zaki.jpeg',
   `about_headline` VARCHAR(255),
   `bio_paragraph_1` TEXT,
   `bio_paragraph_2` TEXT,
@@ -38,6 +38,10 @@ CREATE TABLE IF NOT EXISTS `profile` (
   `github_handle` VARCHAR(100),
   `linkedin` VARCHAR(255),
   `linkedin_handle` VARCHAR(100),
+  `instagram` VARCHAR(255),
+  `instagram_handle` VARCHAR(100),
+  `facebook` VARCHAR(255),
+  `facebook_handle` VARCHAR(100),
   `resume_url` VARCHAR(255),
   `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

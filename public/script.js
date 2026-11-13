@@ -150,6 +150,20 @@ function renderPortfolio(data) {
     if (val) val.textContent = profile.githubHandle || "@Kaif-Zaki";
   }
 
+  const linkInstagram = document.getElementById("heroLinkInstagram");
+  if (linkInstagram) {
+    linkInstagram.href = profile.instagram || "https://www.instagram.com/m_kaif_zaki/";
+    const val = linkInstagram.querySelector(".hero-link-value");
+    if (val) val.textContent = profile.instagramHandle || "@m_kaif_zaki";
+  }
+
+  const linkFacebook = document.getElementById("heroLinkFacebook");
+  if (linkFacebook) {
+    linkFacebook.href = profile.facebook || "https://www.facebook.com/kaifzaki23";
+    const val = linkFacebook.querySelector(".hero-link-value");
+    if (val) val.textContent = profile.facebookHandle || "/kaifzaki23";
+  }
+
   const linkEmail = document.getElementById("heroLinkEmail");
   if (linkEmail && profile.email) {
     linkEmail.href = `mailto:${profile.email}`;
@@ -494,6 +508,16 @@ function renderPortfolio(data) {
     const githubVal = document.getElementById("contactGithubVal");
     if (githubLink && profile.github) githubLink.href = profile.github;
     if (githubVal && profile.github) githubVal.textContent = profile.githubHandle || "@Kaif-Zaki";
+
+    const instagramLink = document.getElementById("contactInstagramLink");
+    const instagramVal = document.getElementById("contactInstagramVal");
+    if (instagramLink) instagramLink.href = profile.instagram || "https://www.instagram.com/m_kaif_zaki/";
+    if (instagramVal) instagramVal.textContent = profile.instagramHandle || "@m_kaif_zaki";
+
+    const facebookLink = document.getElementById("contactFacebookLink");
+    const facebookVal = document.getElementById("contactFacebookVal");
+    if (facebookLink) facebookLink.href = profile.facebook || "https://www.facebook.com/kaifzaki23";
+    if (facebookVal) facebookVal.textContent = profile.facebookHandle || "/kaifzaki23";
   }
 
   // Footer

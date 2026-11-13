@@ -35,10 +35,33 @@ function getPool() {
   return pool;
 }
 
+// Helper to ensure profile table has Instagram & Facebook columns
+async function ensureSocialColumns(conn) {
+  try {
+    const [cols] = await conn.query('SHOW COLUMNS FROM `profile`');
+    const colNames = cols.map(c => c.Field);
+    if (!colNames.includes('instagram')) {
+      await conn.query("ALTER TABLE `profile` ADD COLUMN `instagram` VARCHAR(255) DEFAULT 'https://www.instagram.com/m_kaif_zaki/' AFTER `linkedin_handle`");
+    }
+    if (!colNames.includes('instagram_handle')) {
+      await conn.query("ALTER TABLE `profile` ADD COLUMN `instagram_handle` VARCHAR(100) DEFAULT '@m_kaif_zaki' AFTER `instagram`");
+    }
+    if (!colNames.includes('facebook')) {
+      await conn.query("ALTER TABLE `profile` ADD COLUMN `facebook` VARCHAR(255) DEFAULT 'https://www.facebook.com/kaifzaki23' AFTER `instagram_handle`");
+    }
+    if (!colNames.includes('facebook_handle')) {
+      await conn.query("ALTER TABLE `profile` ADD COLUMN `facebook_handle` VARCHAR(100) DEFAULT '/kaifzaki23' AFTER `facebook`");
+    }
+  } catch (err) {
+    // Non-fatal if table doesn't exist yet
+  }
+}
+
 // Test Connection & check if tables exist
 async function testConnection() {
   try {
     const conn = await getPool().getConnection();
+    await ensureSocialColumns(conn);
     conn.release();
     return { ok: true, message: `Connected to MySQL database "${DB_NAME}" at ${DB_HOST}:${DB_PORT}` };
   } catch (err) {
@@ -72,7 +95,7 @@ async function getPortfolioData() {
       heroTagline: prof.hero_tagline || '',
       heroSub: prof.hero_sub || '',
       watermark: prof.watermark || '',
-      aboutImage: prof.about_image || '/assets/about-developer.gif',
+      aboutImage: prof.about_image || '/assets/kaif-zaki.jpeg',
       aboutHeadline: prof.about_headline || '',
       bioParagraph1: prof.bio_paragraph_1 || '',
       bioParagraph2: prof.bio_paragraph_2 || '',
@@ -83,6 +106,10 @@ async function getPortfolioData() {
       githubHandle: prof.github_handle || '',
       linkedin: prof.linkedin || '',
       linkedinHandle: prof.linkedin_handle || '',
+      instagram: prof.instagram || 'https://www.instagram.com/m_kaif_zaki/',
+      instagramHandle: prof.instagram_handle || '@m_kaif_zaki',
+      facebook: prof.facebook || 'https://www.facebook.com/kaifzaki23',
+      facebookHandle: prof.facebook_handle || '/kaifzaki23',
       resumeUrl: prof.resume_url || ''
     };
 
@@ -209,13 +236,15 @@ async function savePortfolioData(data) {
     // 1. Profile
     if (data.profile) {
       const pr = data.profile;
+      await ensureSocialColumns(conn);
       await conn.query(`
         INSERT INTO \`profile\` (
           \`id\`, \`name\`, \`short_name\`, \`title\`, \`tagline\`, \`hero_tagline\`, \`hero_sub\`,
           \`watermark\`, \`about_image\`, \`about_headline\`, \`bio_paragraph_1\`, \`bio_paragraph_2\`,
-          \`email\`, \`phone\`, \`location\`, \`github\`, \`github_handle\`, \`linkedin\`, \`linkedin_handle\`, \`resume_url\`
+          \`email\`, \`phone\`, \`location\`, \`github\`, \`github_handle\`, \`linkedin\`, \`linkedin_handle\`,
+          \`instagram\`, \`instagram_handle\`, \`facebook\`, \`facebook_handle\`, \`resume_url\`
         ) VALUES (
-          1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+          1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
         ) ON DUPLICATE KEY UPDATE
           \`name\`=VALUES(\`name\`),
           \`short_name\`=VALUES(\`short_name\`),
@@ -235,14 +264,20 @@ async function savePortfolioData(data) {
           \`github_handle\`=VALUES(\`github_handle\`),
           \`linkedin\`=VALUES(\`linkedin\`),
           \`linkedin_handle\`=VALUES(\`linkedin_handle\`),
+          \`instagram\`=VALUES(\`instagram\`),
+          \`instagram_handle\`=VALUES(\`instagram_handle\`),
+          \`facebook\`=VALUES(\`facebook\`),
+          \`facebook_handle\`=VALUES(\`facebook_handle\`),
           \`resume_url\`=VALUES(\`resume_url\`)
       `, [
         pr.name || '', pr.shortName || '', pr.title || '', pr.tagline || '',
         pr.heroTagline || '', pr.heroSub || '', pr.watermark || '',
-        pr.aboutImage || '/assets/about-developer.gif',
+        pr.aboutImage || '/assets/kaif-zaki.jpeg',
         pr.aboutHeadline || '', pr.bioParagraph1 || '', pr.bioParagraph2 || '',
         pr.email || '', pr.phone || '', pr.location || '',
         pr.github || '', pr.githubHandle || '', pr.linkedin || '', pr.linkedinHandle || '',
+        pr.instagram || 'https://www.instagram.com/m_kaif_zaki/', pr.instagramHandle || '@m_kaif_zaki',
+        pr.facebook || 'https://www.facebook.com/kaifzaki23', pr.facebookHandle || '/kaifzaki23',
         pr.resumeUrl || ''
       ]);
     }

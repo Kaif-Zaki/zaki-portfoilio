@@ -440,6 +440,23 @@ app.post('/api/assets/delete-unused', requireAuth, async (req, res) => {
   }
 });
 
+// Search Engine Optimization (SEO): robots.txt and sitemap.xml
+app.get('/robots.txt', (req, res) => {
+  res.type('text/plain');
+  res.sendFile(path.join(__dirname, 'public', 'robots.txt'));
+});
+
+app.get('/sitemap.xml', (req, res) => {
+  res.type('application/xml');
+  res.sendFile(path.join(__dirname, 'public', 'sitemap.xml'));
+});
+
+// Google Search Console Site Verification
+app.get('/google79fa85fc73132b51.html', (req, res) => {
+  res.type('text/html');
+  res.sendFile(path.join(__dirname, 'public', 'google79fa85fc73132b51.html'));
+});
+
 // Serve static frontend files with no-cache headers for scripts, styles, and HTML
 app.use(express.static(path.join(__dirname, 'public'), {
   setHeaders: (res, filePath) => {

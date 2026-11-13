@@ -211,6 +211,14 @@ function populateAllTabs() {
     document.getElementById("profGithubHandle").value = profile.githubHandle || "";
     document.getElementById("profLinkedin").value = profile.linkedin || "";
     document.getElementById("profLinkedinHandle").value = profile.linkedinHandle || "";
+    const profInsta = document.getElementById("profInstagram");
+    if (profInsta) profInsta.value = profile.instagram || "https://www.instagram.com/m_kaif_zaki/";
+    const profInstaHandle = document.getElementById("profInstagramHandle");
+    if (profInstaHandle) profInstaHandle.value = profile.instagramHandle || "@m_kaif_zaki";
+    const profFb = document.getElementById("profFacebook");
+    if (profFb) profFb.value = profile.facebook || "https://www.facebook.com/kaifzaki23";
+    const profFbHandle = document.getElementById("profFacebookHandle");
+    if (profFbHandle) profFbHandle.value = profile.facebookHandle || "/kaifzaki23";
     document.getElementById("profResumeUrl").value = profile.resumeUrl || "";
     const resumeDownloadLink = document.getElementById("profResumeDownloadLink");
     if (resumeDownloadLink) resumeDownloadLink.href = profile.resumeUrl || "/assets/Kaif_Zaki_Resume.pdf";
@@ -280,6 +288,14 @@ async function saveProfileSection() {
   p.githubHandle = document.getElementById("profGithubHandle").value;
   p.linkedin = document.getElementById("profLinkedin").value;
   p.linkedinHandle = document.getElementById("profLinkedinHandle").value;
+  const profInsta = document.getElementById("profInstagram");
+  if (profInsta) p.instagram = profInsta.value;
+  const profInstaHandle = document.getElementById("profInstagramHandle");
+  if (profInstaHandle) p.instagramHandle = profInstaHandle.value;
+  const profFb = document.getElementById("profFacebook");
+  if (profFb) p.facebook = profFb.value;
+  const profFbHandle = document.getElementById("profFacebookHandle");
+  if (profFbHandle) p.facebookHandle = profFbHandle.value;
   p.resumeUrl = document.getElementById("profResumeUrl").value;
   await savePortfolio();
 }

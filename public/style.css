@@ -750,7 +750,7 @@ a.availability-pill:focus-visible {
 
 .hero-links {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
 }
 
@@ -2161,6 +2161,34 @@ a.availability-pill:focus-visible {
   background: rgba(168, 85, 247, 0.2);
 }
 
+.connect-tile--instagram .connect-icon-wrapper {
+  background: rgba(225, 48, 108, 0.12);
+  color: #f43f5e;
+}
+.connect-tile--instagram:hover {
+  border-color: rgba(244, 63, 94, 0.45);
+  box-shadow: 0 12px 30px -4px rgba(244, 63, 94, 0.2);
+  transform: translateY(-4px);
+}
+.connect-tile--instagram:hover .connect-icon-wrapper {
+  transform: scale(1.06);
+  background: rgba(225, 48, 108, 0.25);
+}
+
+.connect-tile--facebook .connect-icon-wrapper {
+  background: rgba(24, 119, 242, 0.12);
+  color: #3b82f6;
+}
+.connect-tile--facebook:hover {
+  border-color: rgba(59, 130, 246, 0.45);
+  box-shadow: 0 12px 30px -4px rgba(59, 130, 246, 0.2);
+  transform: translateY(-4px);
+}
+.connect-tile--facebook:hover .connect-icon-wrapper {
+  transform: scale(1.06);
+  background: rgba(24, 119, 242, 0.25);
+}
+
 /* ============================================
    BUTTONS
 ============================================ */
@@ -2688,5 +2716,8 @@ a.availability-pill:focus-visible {
   }
   .writing-card {
     width: calc(100vw - 28px);
+  }
+  .hero-links {
+    grid-template-columns: 1fr;
   }
 }

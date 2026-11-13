@@ -1,0 +1,16 @@
+# Robots.txt for Kaif Zaki Portfolio
+# https://zaki-portfolio.oncodetech.com/
+
+User-agent: *
+Allow: /
+Allow: /assets/
+Allow: /style.css
+Allow: /script.js
+Allow: /google*.html
+Disallow: /api/
+Disallow: /admin
+Disallow: /admin/
+
+# Sitemaps
+Sitemap: https://zaki-portfolio.oncodetech.com/sitemap.xml
+

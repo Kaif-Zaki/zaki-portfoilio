@@ -43,7 +43,7 @@ CREATE TABLE `profile` (
   `hero_tagline` VARCHAR(255),
   `hero_sub` TEXT,
   `watermark` VARCHAR(50),
-  `about_image` VARCHAR(255) DEFAULT '/assets/my_1791747369321.jpeg',
+  `about_image` VARCHAR(255) DEFAULT '/assets/kaif-zaki.jpeg',
   `about_headline` VARCHAR(255),
   `bio_paragraph_1` TEXT,
   `bio_paragraph_2` TEXT,
@@ -54,6 +54,10 @@ CREATE TABLE `profile` (
   `github_handle` VARCHAR(100),
   `linkedin` VARCHAR(255),
   `linkedin_handle` VARCHAR(100),
+  `instagram` VARCHAR(255),
+  `instagram_handle` VARCHAR(100),
+  `facebook` VARCHAR(255),
+  `facebook_handle` VARCHAR(100),
   `resume_url` VARCHAR(255),
   `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -61,7 +65,8 @@ CREATE TABLE `profile` (
 INSERT INTO `profile` (
   `id`, `name`, `short_name`, `title`, `tagline`, `hero_tagline`, `hero_sub`,
   `watermark`, `about_image`, `about_headline`, `bio_paragraph_1`, `bio_paragraph_2`,
-  `email`, `phone`, `location`, `github`, `github_handle`, `linkedin`, `linkedin_handle`, `resume_url`
+  `email`, `phone`, `location`, `github`, `github_handle`, `linkedin`, `linkedin_handle`,
+  `instagram`, `instagram_handle`, `facebook`, `facebook_handle`, `resume_url`
 ) VALUES (
   1,
   'Kaif  Zaki',
@@ -71,7 +76,7 @@ INSERT INTO `profile` (
   'Built for Innovation || Engineered for Impact',
   'Associate Software Engineer specializing in modern JavaScript/TypeScript (React, Node.js), Java (Spring Boot), microservices architecture, and cloud infrastructure — engineering reliable systems for scalable production deployments.',
   'Software Engineer',
-  '/assets/my_1791747369321.jpeg',
+  '/assets/kaif-zaki.jpeg',
   'Engineering Scalable Web Systems with Microservices, Spring Boot & Modern Cloud Ops',
   'Results-driven Software Engineer with extensive hands-on experience in developing scalable web applications, microservices architecture, and cloud infrastructure. Proficient across the full software development lifecycle, specializing in modern JavaScript/TypeScript (React, Node.js), Java (Spring Boot), and multi-database management.',
   'Demonstrated ability in API engineering, Linux server administration, and production deployments. Experienced in optimizing database schemas and complex queries across MySQL, PostgreSQL, and MongoDB, and automating deployments with Docker, PM2, aaPanel, and Nginx reverse proxies.',
@@ -82,6 +87,10 @@ INSERT INTO `profile` (
   '@Kaif-Zaki',
   'https://linkedin.com/in/kaif-zaki',
   '/in/kaif-zaki',
+  'https://www.instagram.com/m_kaif_zaki/',
+  '@m_kaif_zaki',
+  'https://www.facebook.com/kaifzaki23',
+  '/kaifzaki23',
   '/assets/Kaif_Zaki_Resume.pdf'
 );
 

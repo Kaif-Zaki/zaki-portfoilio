@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://zaki-portfolio.oncodetech.com/</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://zaki-portfolio.oncodetech.com/assets/kaif-zaki.jpeg</image:loc>
+      <image:title>Kaif Zaki - Associate Software Engineer</image:title>
+      <image:caption>Kaif Zaki (Kaif / Zaki) official portfolio picture and software engineer profile</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://zaki-portfolio.oncodetech.com/assets/kaif-zaki-profile.jpeg</image:loc>
+      <image:title>Kaif Zaki Portrait</image:title>
+      <image:caption>Kaif Zaki - Full Stack and Microservices Developer</image:caption>
+    </image:image>
+  </url>
+</urlset>
+
